@@ -1,8 +1,8 @@
 import * as express from 'express';
-import * as fs from 'fs';
 import * as HttpStatus from 'http-status-codes';
+import Pages from '../db'
 
-export default function routes(dataPath: string) {
+export default function routes() {
     const router = express.Router();
 
     router.get('/page',
@@ -13,14 +13,14 @@ export default function routes(dataPath: string) {
     router.get('/page/:id',
     (req, res) => {
         let id : string = req.params.id;
-        let rawdata : string;
-        try {
-            rawdata = fs.readFileSync(`${dataPath}/pages/${id}.json`, 'utf8');
-        } catch (err) {
-            return res.status(HttpStatus.BAD_REQUEST).json({ error: "Page ID not found." });
+
+        let page = Pages[id];
+
+        if (page) {
+            res.status(HttpStatus.OK).json(page);
+        } else {
+            res.status(HttpStatus.BAD_REQUEST).json({ error: 'Specified page ID does not exist.'});
         }
-        let page = JSON.parse(rawdata);
-        return res.status(200).json(page);
     });
 
     return router;

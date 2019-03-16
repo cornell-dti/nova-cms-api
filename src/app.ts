@@ -3,13 +3,11 @@ import express = require('express');
 
 import pageRoutes from './page/routes';
 
-const dataPath = './data';
-
 // Create a new express application instance
 const app: express.Application = express();
 
-app.use(pageRoutes(dataPath));
+app.use(pageRoutes());
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Nova CMS API started');
 });
