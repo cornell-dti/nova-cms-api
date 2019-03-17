@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
-import Pages from '../db'
+import {Pages} from '../db'
 
 export default function routes() {
     const router = express.Router();
