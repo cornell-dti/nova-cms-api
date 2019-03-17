@@ -6,10 +6,12 @@
 import * as fs from 'fs';
 
 const dataPath = './data/';
+
+const globalPath = dataPath + 'global.json';
 const pagesPath = dataPath + 'pages'
 const teamMembersPath = dataPath + 'members-sp19.json'
 
-const TeamMembers : Array<Object> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
+const Global : Object = JSON.parse(fs.readFileSync(globalPath, 'utf8'));
 
 const Pages : Object = {
     apply: JSON.parse(fs.readFileSync(`${pagesPath}/apply.json`, 'utf8')),
@@ -20,4 +22,6 @@ const Pages : Object = {
     team: JSON.parse(fs.readFileSync(`${pagesPath}/team.json`, 'utf8'))
 }
 
-export {Pages, TeamMembers}
+const TeamMembers : Array<Object> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
+
+export {Global, Pages, TeamMembers}
