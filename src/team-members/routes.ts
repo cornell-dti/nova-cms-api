@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
-import {TeamMembers} from '../db'
+import {TeamMember, TeamMembersList} from '../db'
 
 export default function routes() {
     const router = express.Router();
@@ -12,19 +12,20 @@ export default function routes() {
         let role : string | undefined = req.query.role;
         let conditional : string | undefined = req.query.conditional;
 
-        const predicate = member => {
+        const predicate = (member:TeamMember) => {
             if (conditional === 'and' || conditional === undefined) {
-                return (currentSubteam === undefined || currentSubteam === member.subteam)
+                return (currentSubteam === undefined || (member.subteam !== undefined && currentSubteam === member.subteam))
                     && (formerSubteam === undefined || (member.otherSubteams && member.otherSubteams.includes(formerSubteam)))
-                    && (role === undefined || role === member.roleId);
+                    && (role === undefined || (member.roleId !== undefined && role === member.roleId));
             } else {
-                return (currentSubteam === member.subteam)
-                || (member.otherSubteams && member.otherSubteams.includes(formerSubteam))
-                || role === member.roleId;
+                return (currentSubteam === undefined && formerSubteam === undefined && role === undefined) 
+                    || ((currentSubteam !== undefined && currentSubteam === member.subteam)
+                        || (formerSubteam !== undefined && member.otherSubteams && member.otherSubteams.includes(formerSubteam))
+                        || (role !== undefined && role === member.roleId));
             }
         };
 
-        res.status(HttpStatus.OK).json(TeamMembers.filter(predicate));
+        res.status(HttpStatus.OK).json(TeamMembersList.filter(predicate));
     });
 
     return router;

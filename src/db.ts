@@ -11,6 +11,26 @@ const globalPath = dataPath + 'global.json';
 const pagesPath = dataPath + 'pages'
 const teamMembersPath = dataPath + 'members-sp19.json'
 
+interface TeamMember {
+    name: string
+    netid: string
+    source?: string
+    graduation?: string
+    major?: string
+    doubleMajor?: string
+    minor?: string
+    hometown?: string
+    github?: string
+    linkedin?: string
+    other?: string
+    website?: string
+    about?: string
+    subteam?: string
+    otherSubteams?: string
+    roleDescription?: string
+    roleId?: string
+}
+
 const Global : Object = JSON.parse(fs.readFileSync(globalPath, 'utf8'));
 
 const Pages : Object = {
@@ -22,6 +42,6 @@ const Pages : Object = {
     team: JSON.parse(fs.readFileSync(`${pagesPath}/team.json`, 'utf8'))
 }
 
-const TeamMembers : Array<Object> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
+const TeamMembersList : Array<TeamMember> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
 
-export {Global, Pages, TeamMembers}
+export {Global, Pages, TeamMember, TeamMembersList}
