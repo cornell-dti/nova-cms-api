@@ -8,8 +8,10 @@ import * as fs from 'fs';
 const dataPath = './data/';
 
 const globalPath = dataPath + 'global.json';
-const pagesPath = dataPath + 'pages'
-const teamMembersPath = dataPath + 'members-sp19.json'
+const pagesPath = dataPath + 'pages';
+const teamMembersPath = dataPath + 'members-sp19.json';
+const teamsPath = dataPath + 'teams.json';
+const projectsPath = dataPath + 'projects';
 
 interface TeamMember {
     name: string
@@ -44,4 +46,8 @@ const Pages : Object = {
 
 const TeamMembersList : Array<TeamMember> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
 
-export {Global, Pages, TeamMember, TeamMembersList}
+const Projects = ['events', 'orientation', 'queuemein', 'researchconnect', 'reviews', 'samwise', 'shout', 'website']
+                .map((name => JSON.parse(fs.readFileSync(`${projectsPath}/${name}.json`, 'utf-8'))))
+                .reduce((acc, project) => { acc[project.id] = project; return acc; }, {});
+
+export {Global, Pages, TeamMember, TeamMembersList, Projects}
