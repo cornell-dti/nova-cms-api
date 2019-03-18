@@ -21,6 +21,6 @@ app.use((req, res) => {
   res.status(HttpStatus.NOT_FOUND).json({error: "Not found."});
 });
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
   console.log('Nova CMS API started');
 });
