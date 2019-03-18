@@ -11,6 +11,12 @@ import projectRoutes from './project/routes';
 // Create a new express application instance
 const app: express.Application = express();
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(globalRoutes());
 app.use(pageRoutes());
 app.use(teamMembersRoutes());
