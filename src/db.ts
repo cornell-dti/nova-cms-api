@@ -33,22 +33,17 @@ interface TeamMember {
     roleId?: string
 }
 
+const createObjectMap = (path:String, fileNames:Array<String>, key?:string) =>
+    fileNames.map((fileName => {
+        let json = JSON.parse(fs.readFileSync(`${path}/${fileName}.json`, 'utf-8'));
+        //If key undefined, we store object under its file's name
+        if (key === undefined) return { id: fileName, json };
+        else return { id: json[key], json };
+    })).reduce((acc, value) => { acc[value.id] = value.json; return acc; }, {});
+
 const Global : Object = JSON.parse(fs.readFileSync(globalPath, 'utf8'));
-
-const Pages : Object = {
-    apply: JSON.parse(fs.readFileSync(`${pagesPath}/apply.json`, 'utf8')),
-    courses: JSON.parse(fs.readFileSync(`${pagesPath}/courses.json`, 'utf8')),
-    home: JSON.parse(fs.readFileSync(`${pagesPath}/home.json`, 'utf8')),
-    initiatives: JSON.parse(fs.readFileSync(`${pagesPath}/initiatives.json`, 'utf8')),
-    sponsor: JSON.parse(fs.readFileSync(`${pagesPath}/sponsor.json`, 'utf8')),
-    team: JSON.parse(fs.readFileSync(`${pagesPath}/team.json`, 'utf8')),
-    projects: JSON.parse(fs.readFileSync(`${pagesPath}/projects.json`, 'utf8'))
-}
-
+const Pages = createObjectMap(pagesPath, ['apply', 'courses', 'home', 'initiatives', 'sponsor', 'team', 'projects']);
 const TeamMembersList : Array<TeamMember> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
-
-const Projects = ['events', 'orientation', 'queuemein', 'researchconnect', 'reviews', 'samwise', 'shout', 'website']
-                .map((name => JSON.parse(fs.readFileSync(`${projectsPath}/${name}.json`, 'utf-8'))))
-                .reduce((acc, project) => { acc[project.id] = project; return acc; }, {});
+const Projects = createObjectMap(projectsPath, ['events', 'orientation', 'queuemein', 'researchconnect', 'reviews', 'samwise', 'shout', 'website'], 'id');
 
 export {Global, Pages, TeamMember, TeamMembersList, Projects}
