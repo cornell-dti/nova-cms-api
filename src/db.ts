@@ -41,7 +41,8 @@ const Pages : Object = {
     home: JSON.parse(fs.readFileSync(`${pagesPath}/home.json`, 'utf8')),
     initiatives: JSON.parse(fs.readFileSync(`${pagesPath}/initiatives.json`, 'utf8')),
     sponsor: JSON.parse(fs.readFileSync(`${pagesPath}/sponsor.json`, 'utf8')),
-    team: JSON.parse(fs.readFileSync(`${pagesPath}/team.json`, 'utf8'))
+    team: JSON.parse(fs.readFileSync(`${pagesPath}/team.json`, 'utf8')),
+    projects: JSON.parse(fs.readFileSync(`${pagesPath}/projects.json`, 'utf8'))
 }
 
 const TeamMembersList : Array<TeamMember> = JSON.parse(fs.readFileSync(teamMembersPath, 'utf8'));
