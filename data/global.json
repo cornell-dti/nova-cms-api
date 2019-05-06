@@ -6,6 +6,11 @@
     "directories": {
       "members": "/members"
     },
+    "main-menu": {
+      "advertisement": {
+        "open": false
+      }
+    },
     "projects": {
       "*": {
         "card": "~.png",
